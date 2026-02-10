@@ -99,19 +99,7 @@ Ver [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md) para guía completa con Nginx, 
 
 ---
 
-## 🔑 Credenciales por Defecto
 
-**Administrador:**
-- Email: `admin@easton.cl`
-- Password: `easton2026`
-
-**Usuario de prueba:**
-- Email: `john@doe.com`
-- Password: `johndoe123`
-
-⚠️ **Cambiar estas credenciales en producción**
-
----
 
 ## 📊 Estadísticas y Reportes
 
