@@ -134,7 +134,7 @@ function getMultipleChoiceDistribution(responses: any[], questionOrder: number):
 function getSatisfactionDistribution(responses: any[], questionOrder: number): Record<string, number> {
   const distribution = {
     'Muy satisfecho': 0,
-    'satisfecho': 0,
+    'Satisfecho': 0,
     'Neutral': 0,
     'Insatisfecho': 0,
     'Muy insatisfecho': 0,
@@ -144,10 +144,36 @@ function getSatisfactionDistribution(responses: any[], questionOrder: number): R
     const answers = response.dynamicAnswers as any;
     if (!answers) return;
 
-    const answer = answers[`q${questionOrder}`];
-    if (answer && answer in distribution) {
-      distribution[answer as keyof typeof distribution]++;
+    const rawAnswer = answers[`q${questionOrder}`];
+
+    // Solo considerar las respuestas nuevas numéricas 1-7.
+    if (typeof rawAnswer !== 'number' || Number.isNaN(rawAnswer)) {
+      return;
     }
+
+    let numericValue = rawAnswer;
+
+    // Clamp por seguridad
+    // Clamp por seguridad
+    if (numericValue < 1) numericValue = 1;
+    if (numericValue > 7) numericValue = 7;
+
+    // Agrupar en las 5 categorías del gráfico
+    let bucket: keyof typeof distribution;
+    if (numericValue >= 6) {
+      bucket = 'Muy satisfecho';
+    } else if (numericValue === 5) {
+      bucket = 'Satisfecho';
+    } else if (numericValue === 4) {
+      bucket = 'Neutral';
+    } else if (numericValue === 2 || numericValue === 3) {
+      bucket = 'Insatisfecho';
+    } else {
+      // 1 o menos
+      bucket = 'Muy insatisfecho';
+    }
+
+    distribution[bucket]++;
   });
 
   return distribution;
