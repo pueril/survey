@@ -1,0 +1,105 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @db.VarChar(255)
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique @db.VarChar(255)
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          String    @default("admin")
+  createdAt     DateTime  @default(now())
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model VerificationToken {
+  identifier String   @db.VarChar(255)
+  token      String   @unique @db.VarChar(255)
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Client {
+  id              String           @id @default(cuid())
+  name            String
+  email           String
+  company         String
+  project         String
+  uniqueToken     String           @unique @db.VarChar(255)
+  surveyCompleted Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  surveyResponse  SurveyResponse?
+}
+
+model Question {
+  id          String   @id @default(cuid())
+  text        String
+  type        String   // "rating" (1-7), "satisfaction", "yesno", "multiplechoice", "text"
+  category    String   // "coordinacion", "transporte", "instalacion", "entrega", "comunicacion", "profesionalismo", "general"
+  options     Json?    // Para multiplechoice: ["Opción 1", "Opción 2", ...]
+  order       Int
+  required    Boolean  @default(true)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SurveyResponse {
+  id        String   @id @default(cuid())
+  clientId  String   @unique
+  client    Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  
+  // Legacy fields (deprecated, kept for backwards compatibility)
+  coordinationRating Int?
+  transportSatisfaction String?
+  installationQuality Int?
+  deliveryRating Int?
+  productCondition String?
+  communicationRating Int?
+  professionalismRating Int?
+  deliveryOnTime Boolean?
+  overallSatisfaction Int?
+  wouldRecommend Boolean?
+  additionalComments String?
+  
+  // Respuestas dinámicas en formato JSON (formato actual)
+  dynamicAnswers Json?
+  
+  completedAt DateTime @default(now())
+}

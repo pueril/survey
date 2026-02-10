@@ -1,0 +1,27 @@
+COMANDOS PARA DIAGNOSTICAR PRISMA
+==================================
+
+1. VER SCHEMA.PRISMA:
+---------------------
+cat prisma/schema.prisma | grep -A 5 datasource
+
+2. BUSCAR TODOS LOS .env:
+-------------------------
+find . -name ".env*" -type f
+
+3. VER QUÉ LEE PRISMA:
+----------------------
+node -e "require('dotenv').config(); console.log(process.env.DATABASE_URL)"
+
+4. PROBAR CON VARIABLE DIRECTA:
+-------------------------------
+DATABASE_URL="mysql://eastonde_survey:PKTQWPqpmttpgnq3hSqq@localhost/eastonde_survey?socket=/tmp/mysql.sock" npx prisma db push
+
+5. SI FALLA, PROBAR FORMATO ALTERNATIVO:
+-----------------------------------------
+nano .env
+# Cambiar a: DATABASE_URL="mysql://eastonde_survey:PKTQWPqpmttpgnq3hSqq@/eastonde_survey?socket=/tmp/mysql.sock"
+npx prisma db push
+
+==================================
+NOTA: Si nada funciona, podemos usar mariadb directamente para ejecutar SQL.

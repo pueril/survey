@@ -1,0 +1,47 @@
+COMANDOS PARA CLOUDLINUX NODEJS SELECTOR
+==========================================
+
+IMPORTANTE: CloudLinux requiere que node_modules esté en el entorno virtual,
+no en el directorio de la aplicación. Se creará un symlink automáticamente.
+
+1. ACTIVAR ENTORNO VIRTUAL:
+----------------------------
+source /home/eastonde/nodevenv/domains/survey.eastondesign.cl/public_html/24/bin/activate && cd /home/eastonde/domains/survey.eastondesign.cl/public_html
+
+2. ELIMINAR node_modules SI EXISTE (carpeta real):
+---------------------------------------------------
+rm -rf node_modules
+
+3. INSTALAR DEPENDENCIAS:
+--------------------------
+npm install --legacy-peer-deps --production
+
+4. VERIFICAR QUE node_modules ES UN SYMLINK:
+---------------------------------------------
+ls -la | grep node_modules
+# Debería mostrar: node_modules -> /home/eastonde/nodevenv/...
+
+5. DESINSTALAR PRISMA INCORRECTO:
+----------------------------------
+npm uninstall prisma @prisma/client
+
+6. INSTALAR PRISMA 6.7.0:
+-------------------------
+npm install prisma@6.7.0 @prisma/client@6.7.0 --legacy-peer-deps --save-exact
+
+7. GENERAR PRISMA CLIENT:
+--------------------------
+npx prisma generate
+
+8. CONFIGURAR BASE DE DATOS:
+-----------------------------
+npx prisma db push
+
+9. VERIFICAR:
+-------------
+npx prisma --version
+# Debería mostrar: prisma 6.7.0
+
+==========================================
+NOTA: Si el paso 3 falla, prueba sin --production:
+npm install --legacy-peer-deps

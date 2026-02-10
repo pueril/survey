@@ -1,0 +1,49 @@
+COMANDOS PARA ELIMINAR node_modules COMPLETAMENTE
+==================================================
+
+Ejecuta estos comandos en orden:
+
+1. VERIFICAR QUÉ EXISTE:
+------------------------
+ls -la | grep node_modules
+file node_modules 2>/dev/null || echo "No existe"
+
+2. ELIMINAR COMPLETAMENTE (carpeta Y symlink):
+-----------------------------------------------
+rm -rf node_modules
+rm -f node_modules
+
+3. VERIFICAR QUE SE ELIMINÓ:
+-----------------------------
+ls -la | grep node_modules
+test -e node_modules && echo "ERROR: Aún existe" || echo "OK: Eliminado"
+
+4. LISTAR DIRECTORIO PARA VER QUÉ HAY:
+---------------------------------------
+ls -la
+
+5. INSTALAR DEPENDENCIAS:
+--------------------------
+npm install --legacy-peer-deps --production
+
+6. VERIFICAR QUE SE CREÓ EL SYMLINK:
+-------------------------------------
+ls -la | grep node_modules
+file node_modules
+# Debería mostrar que es un symlink
+
+7. INSTALAR PRISMA 6.7.0:
+--------------------------
+npm install prisma@6.7.0 @prisma/client@6.7.0 --legacy-peer-deps --save-exact
+
+8. GENERAR PRISMA:
+------------------
+npx prisma generate
+
+9. CONFIGURAR BD:
+------------------
+npx prisma db push
+
+==================================================
+Si el paso 5 sigue dando error después de eliminar,
+verifica con: ls -la | grep node_modules

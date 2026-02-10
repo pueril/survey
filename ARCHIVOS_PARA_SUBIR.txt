@@ -1,0 +1,47 @@
+LISTA DE ARCHIVOS Y CARPETAS PARA SUBIR AL SERVIDOR
+=====================================================
+
+IMPORTANTE: Sube estos archivos/carpetas manteniendo la estructura de directorios
+
+CARPETAS COMPLETAS:
+-------------------
+✅ app/                    (todos los archivos dentro)
+✅ components/              (todos los archivos dentro)
+✅ lib/                     (todos los archivos dentro)
+✅ prisma/                  (todos los archivos dentro)
+✅ public/                  (todos los archivos dentro)
+✅ hooks/                   (todos los archivos dentro)
+✅ .next/                   (carpeta del build de producción - IMPORTANTE)
+
+ARCHIVOS EN LA RAIZ:
+-------------------
+✅ package.json
+✅ package-lock.json        (si existe)
+✅ next.config.js
+✅ tailwind.config.ts
+✅ tsconfig.json
+✅ postcss.config.js
+✅ server.js                (nuevo archivo para DirectAdmin)
+✅ .env                     (CONFIGURADO CON DATOS DE PRODUCCIÓN)
+✅ .gitignore
+
+ARCHIVOS OPCIONALES:
+-------------------
+✅ README.md
+✅ DEPLOY_DIRECTADMIN.md    (esta guía)
+
+NO SUBIR:
+---------
+❌ node_modules/           (se instalará automáticamente en el servidor)
+❌ .next/cache/            (se regenerará)
+❌ .git/                   (si existe)
+❌ *.log                   (archivos de log)
+❌ .env.local
+❌ .env.development
+❌ .env.example
+
+NOTA: Si usas WinRAR o 7-Zip para comprimir:
+1. Selecciona todos los archivos y carpetas marcados con ✅
+2. Crea un archivo .zip
+3. Sube el .zip al servidor
+4. Descomprime en el servidor manteniendo la estructura

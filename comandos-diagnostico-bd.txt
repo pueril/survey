@@ -1,0 +1,32 @@
+COMANDOS PARA DIAGNOSTICAR CONEXIÓN A BASE DE DATOS
+====================================================
+
+1. VER CONFIGURACIÓN ACTUAL:
+-----------------------------
+cat .env | grep DATABASE_URL
+
+2. PROBAR CONEXIÓN MySQL DIRECTA (localhost):
+----------------------------------------------
+mysql -u eastonde_survey -pPKTQWPqpmttpgnq3hSqq -h localhost eastonde_survey -e "SELECT 1;" 2>&1
+
+3. PROBAR CONEXIÓN MySQL (127.0.0.1):
+--------------------------------------
+mysql -u eastonde_survey -pPKTQWPqpmttpgnq3hSqq -h 127.0.0.1 eastonde_survey -e "SELECT 1;" 2>&1
+
+4. PROBAR CONEXIÓN MySQL (sin host, usa socket):
+--------------------------------------------------
+mysql -u eastonde_survey -pPKTQWPqpmttpgnq3hSqq eastonde_survey -e "SELECT 1;" 2>&1
+
+5. BUSCAR SOCKET DE MySQL:
+---------------------------
+find /var /tmp /run -name mysql.sock 2>/dev/null
+
+6. VER PUERTOS MySQL:
+---------------------
+netstat -tlnp | grep 3306 2>/dev/null || ss -tlnp | grep 3306
+
+====================================================
+DESPUÉS DE PROBAR:
+- Si alguno de los comandos 2, 3 o 4 funciona, usa ese formato en .env
+- Si encuentras un socket en el paso 5, úsalo en DATABASE_URL
+- Si nada funciona, verifica en DirectAdmin la configuración de la BD

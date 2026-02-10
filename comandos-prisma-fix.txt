@@ -1,0 +1,34 @@
+COMANDOS PARA ARREGLAR PRISMA
+==============================
+
+Ejecuta estos comandos en orden por SSH:
+
+1. ACTIVAR ENTORNO VIRTUAL:
+----------------------------
+source /home/eastonde/nodevenv/domains/survey.eastondesign.cl/public_html/24/bin/activate && cd /home/eastonde/domains/survey.eastondesign.cl/public_html
+
+2. DESINSTALAR PRISMA ACTUAL:
+------------------------------
+npm uninstall prisma @prisma/client
+
+3. INSTALAR VERSIÓN CORRECTA (6.7.0):
+--------------------------------------
+npm install prisma@6.7.0 @prisma/client@6.7.0 --legacy-peer-deps --save-exact
+
+4. GENERAR PRISMA CLIENT:
+--------------------------
+npx prisma generate
+
+5. CONFIGURAR BASE DE DATOS:
+-----------------------------
+npx prisma db push
+
+6. VERIFICAR VERSIÓN:
+---------------------
+npx prisma --version
+# Debería mostrar: prisma 6.7.0
+
+==============================
+Si el paso 3 falla, prueba:
+npm install --legacy-peer-deps
+(instala todas las dependencias incluyendo dev)
